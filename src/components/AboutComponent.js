@@ -2,13 +2,41 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-
-function About(props) {
-
-    const partners = props.partners.map(partner => {
+// Week 3 - Task 2: Add a new functional component named RenderPartner inside AboutComponent.js
+function RenderPartner({ partner }) {
+    if (partner) {
         return (
-            <h5>{partner.name}</h5>
-        );
+            // Week 3 - Task 2: If so: return a <React.Fragment> component as the top level component inside the return statement. 
+            <React.Fragment>
+                {/* // Week 3 - Task 2: Inside the React Fragment component, add a self-closing <Media> component. Give this component a boolean attribute of object, an attribute src set to partner.image, an attribute alt set to partner.name, and a width of "150". Use curly braces around the JavaScript attribute values (partner.image, partner.name).  */}
+                <Media object src={partner.image} alt={partner.name} width="150" />
+                {/* // Week 3 - Task 2: Below this, and still within the React.Fragment component, add a second <Media> component. This one will have both a start and end tag. Give the start tag a boolean attribute of body and a className attribute of "ml-5 mb-4". */}
+                <Media body className="ml-5 mb-4">
+                    {/* // Week 3 - Task 2: Between the start and end tags (<Media> and </Media>) of the second Media component, add a third Media component. */}
+                     {/* // Week 3 - Task 2: - For this third Media component, add a boolean attribute of heading. This Media component should have a start and end tag as well. Between the start and end tags, insert the partner's name. */}
+                    <Media heading>{partner.name}</Media>
+                    {/* // Week 3 - Task 2: After the closing tag of the third Media component, and still inside the second Media component's start and end tags, insert the partner's description.  */}
+                    {partner.description}
+                </Media>
+            </React.Fragment>
+        )
+    }
+    // Week 3 - Task 2: Otherwise, return an empty div element. 
+    return <div />
+}
+function About(props) {
+    // Week 3 - Task 2: In its parameter list, deconstruct a property named partner from the props object.
+    const partners = props.partners.map( partner => {
+        return (
+            // Week 3 - Task 3: In the About component itself, find where the partners array is being created using the map method.
+                // Week 3 - Task 3: Delete the current contents of the return statement.
+                // Week 3 - Task 3: Inside the return statement, create a Media component with  both a start and end tag.
+            // Week 3 - Task 3: In the start tag for the Media component created above, add an attribute of tag with the value of "li". Also give it a key attribute using the partner's id. 
+            <Media tag="li" key={partner.id}>
+                {/* // Week 3 - Task 3: Inside the start and end tags for this Media component, render the RenderPartner component. Pass to it the current partner object as a prop.  */}
+                <RenderPartner partner={partner} />
+            </Media>
+        )
     });
 
     return (
