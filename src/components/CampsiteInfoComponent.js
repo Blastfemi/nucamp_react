@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Row, Col, Label } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
@@ -50,61 +50,60 @@ class CommentForm extends Component {
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
             {/* // Week 4 - Workshop Assignment: Task 2 - Setup LocalForm */}
-            <LocalForm onSubmit={this.handleSubmit}>
-              <div className='form-group'>
-                {/* // Week 4 - Workshop Assignment: Task 2 - Implement the rating field with Control.select and options 1-5 */}
-                <div class="form-group">
-                  <Label htmlFor="rating">Rating</Label>
-                  <Control.select model=".rating"
-                    id="rating"
-                    name="rating"
-                    className="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </Control.select>
-                </div>
-                {/* // Week 4 - Workshop Assignment: Task 2 - Implement the author field with Control.text */}
-                <div className="form-group">
-                  <Label htmlFor="author">Your Name</Label>
-                  <Control.text model=".author"
-                    className="form-control"
-                    id="author"
-                    name="author"
-                    placeholder="Your name"
-                    // Week 4 - Workshop Assignment: Task 3 - Form Validation
-                    validators={{ required,
-                      minLength: minLength(3),
-                      maxLength: maxLength(15)
-                    }}
-                    />
-                  <Errors className="text-danger" 
-                    model=".author"
-                    show="touched"
-                    messages={{
-                      required: 'Required ',
-                      minLength: 'Must be greater than 2 characters ',
-                      maxLength: 'Must be 15 characters or less '
-                  }} />
-                </div>
-                {/* // Week 4 - Workshop Assignment: Task 2 - Implement the the comment text field with Control.textarea and 6 rows */}
-                <div className="form-group">
-                <Label htmlFor="text"> Comment
-                </Label>
-                  <Control.textarea model=".text"
-                    className="form-control"
-                    id="comment"
-                    name="comment"
-                    rows={6}
+            <LocalForm onSubmit= {(values) => this.handleSubmit(values)}>
+              {/* // Week 4 - Workshop Assignment: Task 2 - Implement the rating field with Control.select and options 1-5 */}
+              <div className="form-group">
+                <Label htmlFor="rating">Rating</Label>
+                <Control.select model=".rating"
+                  id="rating"
+                  name="rating"
+                  className="form-control" defaultValue='1'>
+                  <option value='1'>1</option>
+                  <option value='2'>2</option>
+                  <option value='3'>3</option>
+                  <option value='4'>4</option>
+                  <option value='5'>5</option>
+                </Control.select>
+              </div>
+              {/* // Week 4 - Workshop Assignment: Task 2 - Implement the author field with Control.text */}
+              <div className="form-group">
+                <Label htmlFor="author">Your Name</Label>
+                <Control.text model=".author"
+                  className="form-control"
+                  id="author"
+                  name="author"
+                  placeholder="Your name"
+                  // Week 4 - Workshop Assignment: Task 3 - Form Validation
+                  validators={{ required,
+                    minLength: minLength(2),
+                    maxLength: maxLength(15)
+                  }}
                   />
-                </div>
-                <div className="form-group">
-                  <Button type="submit" color="primary">
-                    Submit
-                  </Button>
-                </div>
+                <Errors className="text-danger" 
+                  model=".author"
+                  component="div"
+                  show="touched"
+                  messages={{
+                    required: 'Required ',
+                    minLength: 'Must be at least 2 characters ',
+                    maxLength: 'Must be 15 characters or less '
+                }} />
+              </div>
+              {/* // Week 4 - Workshop Assignment: Task 2 - Implement the the comment text field with Control.textarea and 6 rows */}
+              <div className="form-group">
+              <Label htmlFor="text"> Comment
+              </Label>
+                <Control.textarea model=".text"
+                  className="form-control"
+                  id="text"
+                  name="text"
+                  rows={6}
+                />
+              </div>
+              <div className="form-group">
+                <Button type="submit" color="primary">
+                  Submit
+                </Button>
               </div>
             </LocalForm>
 
@@ -144,7 +143,7 @@ function RenderComments({ comments, postComment, campsiteId }) {
             </p>
           </div>
         ))}
-        {/* // Week 4 - Workshop Assignment: Task 1 - Render Button */}
+        {/* // Week 4 - Workshop Assignment: Task 1 - Render Comment Form */}
         <CommentForm campsiteId={campsiteId} postComment={postComment} />
       </div>
     )
