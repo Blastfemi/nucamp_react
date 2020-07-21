@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Label } from 'reactstrap';
+import React, { Component } from 'react';
+import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem,
+  Button, Modal, ModalHeader, ModalBody, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
@@ -16,7 +17,7 @@ class CommentForm extends Component {
     super(props);
   
     this.state = {
-      isModalOpen: false,
+      isModalOpen: false
     };
     
     this.toggleModal = this.toggleModal.bind(this);
@@ -33,24 +34,24 @@ class CommentForm extends Component {
   handleSubmit(values) {
     this.toggleModal();
     // Week 4 - Workshop Assignment: Task 2 - Echo back the form inputs to you in an alert as well as in a console.log
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
-}
+    console.log('Current State is: ' + JSON.stringify(values));
+    alert('Current State is: ' + JSON.stringify(values));
+  }
 
   render () {
     return (
       // Week 4 - Workshop Assignment: Task 1 - Create & Style Button
       <div>
         <Button outline onClick={this.toggleModal}>
-          <i className="fa fa-pencil"/> Submit Comment
+          <i className="fa fa-pencil fa-lg" /> Submit Comment
         </Button>
 
         {/* // Week 4 - Workshop Assignment: Task 2 - Create Modal */}
-        <Modal  isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
             {/* // Week 4 - Workshop Assignment: Task 2 - Setup LocalForm */}
-            <LocalForm onSubmit= {(values) => this.handleSubmit(values)}>
+            <LocalForm onSubmit={values => this.handleSubmit(values)}>
               {/* // Week 4 - Workshop Assignment: Task 2 - Implement the rating field with Control.select and options 1-5 */}
               <div className="form-group">
                 <Label htmlFor="rating">Rating</Label>
@@ -72,33 +73,32 @@ class CommentForm extends Component {
                   className="form-control"
                   id="author"
                   name="author"
-                  placeholder="Your name"
+                  placeholder="Your Name"
                   // Week 4 - Workshop Assignment: Task 3 - Form Validation
                   validators={{ required,
                     minLength: minLength(2),
                     maxLength: maxLength(15)
                   }}
                   />
-                <Errors className="text-danger" 
+                <Errors className="text-danger"
                   model=".author"
                   component="div"
                   show="touched"
                   messages={{
                     required: 'Required ',
-                    minLength: 'Must be at least 2 characters ',
-                    maxLength: 'Must be 15 characters or less '
+                    minLength: 'Must be at least 2 characters',
+                    maxLength: 'Must be 15 characters or less'
                 }} />
               </div>
               {/* // Week 4 - Workshop Assignment: Task 2 - Implement the the comment text field with Control.textarea and 6 rows */}
               <div className="form-group">
-              <Label htmlFor="text"> Comment
-              </Label>
-                <Control.textarea model=".text"
-                  className="form-control"
-                  id="text"
-                  name="text"
-                  rows={6}
-                />
+                <Label htmlFor="text">Comment</Label>
+                  <Control.textarea model=".text"
+                    className="form-control"
+                    id="text"
+                    name="text"
+                    rows={6}
+                  />
               </div>
               <div className="form-group">
                 <Button type="submit" color="primary">
@@ -110,7 +110,7 @@ class CommentForm extends Component {
           </ModalBody>
         </Modal>
       </div>
-    )
+    );
   }
 }
 function RenderCampsite({ campsite }) {
@@ -123,10 +123,10 @@ function RenderCampsite({ campsite }) {
         </CardBody>
       </Card>
     </div>
-  )
+  );
 }
 
-function RenderComments({ comments, postComment, campsiteId }) {
+function RenderComments({ comments }) {
   if (comments) {
     return (
       <div className="col-md-5 m-1">
@@ -144,9 +144,9 @@ function RenderComments({ comments, postComment, campsiteId }) {
           </div>
         ))}
         {/* // Week 4 - Workshop Assignment: Task 1 - Render Comment Form */}
-        <CommentForm campsiteId={campsiteId} postComment={postComment} />
+        <CommentForm />
       </div>
-    )
+    );
   }
   return <div />
 }
@@ -168,13 +168,12 @@ function CampsiteInfo(props) {
         </div>
         <div className="row">
           <RenderCampsite campsite={props.campsite} />
-          <RenderComments comments={props.comments} postComment={props.postComment} campsiteId={props.campsite.id} />
+          <RenderComments comments={props.comments} />
         </div>
       </div>
-    )
+    );
   }
-
-  return <div />
+  return <div />;
 }
 
-export default CampsiteInfo
+export default CampsiteInfo;
