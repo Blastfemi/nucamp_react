@@ -4,13 +4,10 @@ import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem,
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
-
-// Week 4 - Workshop Assignment: Task 3 - Form Validation
 const required = val => val && val.length;
 const maxLength = len => val => !val || (val.length <= len);
 const minLength = len => val => val && (val.length >= len);
 
-// Week 4 - Workshop Assignment: Task 1 - Create a new class component named CommentForm
 class CommentForm extends Component {
 
   constructor(props) {
@@ -24,7 +21,6 @@ class CommentForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-// Week 4 - Workshop Assignment: Task 2 - Toggle Modal 
   toggleModal() {
     this.setState({
       isModalOpen: !this.state.isModalOpen
@@ -33,26 +29,19 @@ class CommentForm extends Component {
 
   handleSubmit(values) {
     this.toggleModal();
-    // Week 4 - Workshop Assignment: Task 2 - Echo back the form inputs to you in an alert as well as in a console.log
-    console.log('Current State is: ' + JSON.stringify(values));
-    alert('Current State is: ' + JSON.stringify(values));
+    this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
   }
 
-  render () {
+  render() {
     return (
-      // Week 4 - Workshop Assignment: Task 1 - Create & Style Button
       <div>
         <Button outline onClick={this.toggleModal}>
           <i className="fa fa-pencil fa-lg" /> Submit Comment
         </Button>
-
-        {/* // Week 4 - Workshop Assignment: Task 2 - Create Modal */}
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            {/* // Week 4 - Workshop Assignment: Task 2 - Setup LocalForm */}
             <LocalForm onSubmit={values => this.handleSubmit(values)}>
-              {/* // Week 4 - Workshop Assignment: Task 2 - Implement the rating field with Control.select and options 1-5 */}
               <div className="form-group">
                 <Label htmlFor="rating">Rating</Label>
                 <Control.select model=".rating"
@@ -66,7 +55,6 @@ class CommentForm extends Component {
                   <option value='5'>5</option>
                 </Control.select>
               </div>
-              {/* // Week 4 - Workshop Assignment: Task 2 - Implement the author field with Control.text */}
               <div className="form-group">
                 <Label htmlFor="author">Your Name</Label>
                 <Control.text model=".author"
@@ -74,7 +62,6 @@ class CommentForm extends Component {
                   id="author"
                   name="author"
                   placeholder="Your Name"
-                  // Week 4 - Workshop Assignment: Task 3 - Form Validation
                   validators={{ required,
                     minLength: minLength(2),
                     maxLength: maxLength(15)
@@ -88,9 +75,9 @@ class CommentForm extends Component {
                     required: 'Required ',
                     minLength: 'Must be at least 2 characters',
                     maxLength: 'Must be 15 characters or less'
-                }} />
+                  }}
+                />
               </div>
-              {/* // Week 4 - Workshop Assignment: Task 2 - Implement the the comment text field with Control.textarea and 6 rows */}
               <div className="form-group">
                 <Label htmlFor="text">Comment</Label>
                   <Control.textarea model=".text"
@@ -126,7 +113,7 @@ function RenderCampsite({ campsite }) {
   );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, campsiteId }) {
   if (comments) {
     return (
       <div className="col-md-5 m-1">
@@ -143,8 +130,7 @@ function RenderComments({ comments }) {
             </p>
           </div>
         ))}
-        {/* // Week 4 - Workshop Assignment: Task 1 - Render Comment Form */}
-        <CommentForm />
+        <CommentForm campsiteId={campsiteId} addComment={addComment} />
       </div>
     );
   }
@@ -168,7 +154,11 @@ function CampsiteInfo(props) {
         </div>
         <div className="row">
           <RenderCampsite campsite={props.campsite} />
-          <RenderComments comments={props.comments} />
+          <RenderComments
+            comments={props.comments}
+            addComment={props.addComment}
+            campsiteId={props.campsite.id}
+          />
         </div>
       </div>
     );
