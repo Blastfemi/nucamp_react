@@ -47,7 +47,12 @@ function Home(props) {
           />
         </div>
         <div className="col-md m-1">
-          <RenderCard item={props.partner} />
+        {/* //Week 5 - Task 1: In the Home component, pass the partner's isLoading and errMess props to the RenderCard component */}
+          <RenderCard
+            item={props.partner}
+            isLoading={props.partnerLoading}
+            errMess={props.partnerErrMess}
+          />
         </div>
       </div>
     </div>

@@ -9,7 +9,9 @@ import About from './AboutComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
-import { postComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators';
+// Week 5 - Task 1: Use the new fetchPartners action creator in the appropriate places
+// Week 5 - Task 2: Import postFeedback
+import { postComment, fetchCampsites, fetchComments, fetchPromotions, fetchPartners, postFeedback } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = state => {
@@ -17,7 +19,9 @@ const mapStateToProps = state => {
       campsites: state.campsites,
       comments: state.comments,
       partners: state.partners,
-      promotions: state.promotions
+      promotions: state.promotions,
+// Week 5 - Task 2: Add postFeedback to mapDispatchToProps
+      postFeedback: state.postFeedback
   }
 }
 
@@ -25,8 +29,12 @@ const mapDispatchToProps = {
   postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text)),
   fetchCampsites: () => (fetchCampsites()),
   resetFeedbackForm: () => (actions.reset('feedbackForm')),
+// Week 5 - Task 2: Pass postFeedback to the Contact component from a Route component
+  postFeedback: (feedBack) => (postFeedback(feedBack)),
   fetchComments: () => (fetchComments()),
-  fetchPromotions: () => (fetchPromotions())
+  fetchPromotions: () => (fetchPromotions()),
+// Week 5 - Task 1: Use the new fetchPartners action creator in the appropriate places
+  fetchPartners: () => (fetchPartners())
 
 };
 
@@ -36,6 +44,8 @@ class Main extends Component {
     this.props.fetchCampsites();
     this.props.fetchComments();
     this.props.fetchPromotions();
+// Week 5 - Task 1: Use the new fetchPartners action creator in the appropriate places
+    this.props.fetchPartners();
 
   }
 
@@ -50,7 +60,11 @@ class Main extends Component {
           promotion={this.props.promotions.promotions.filter((promotion) => promotion.featured)[0]}
           promotionLoading={this.props.promotions.isLoading}
           promotionErrMess={this.props.promotions.errMess}
-          partner={this.props.partners.filter((partner) => partner.featured)[0]}
+          // Week 5 - Task 1: Update the way that the partners data is passed to the Home component
+          partner={this.props.partners.partners.filter((partner) => partner.featured)[0]}
+          // Week 5 - Task 1: Pass the isLoading and errMess properties of the partners object to the Home component
+          partnerLoading={this.props.partners.isLoading}
+          partnerErrMess={this.props.partners.errMess}
         />
       );
     };
@@ -77,8 +91,13 @@ class Main extends Component {
                 <Route path='/home' component={HomePage} />
                 <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
                 <Route path='/directory/:campsiteId' component={CampsiteWithId} />
-                <Route exact path='/contactus' render={() => <Contact resetFeedbackForm=
-                {this.props.resetFeedbackForm} />} />
+                <Route exact path='/contactus' render={() => (
+                  <Contact
+                    resetFeedbackForm={this.props.resetFeedbackForm}
+                    postFeedback={this.props.postFeedback}
+                    />
+                  )} 
+                />
                 <Route exact path='/aboutus' render={() => <About partners={this.props.partners} /> } />
                 <Redirect to='/home' />
               </Switch>
