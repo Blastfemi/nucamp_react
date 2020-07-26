@@ -86,21 +86,24 @@ function About(props) {
           <p>We present a curated database of the best campsites in the vast woods and backcountry of the World Wide Web Wilderness. We increase access to adventure for the public while promoting safe and respectful use of resources. The expert wilderness trekkers on our staff personally verify each campsite to make sure that they are up to our standards. We also present a platform for campers to share reviews on campsites they have visited with each other.</p>
         </div>
         <div className="col-sm-6">
-          <Card>
-            <CardHeader className="bg-primary text-white"><h3>Facts At a Glance</h3></CardHeader>
-            <CardBody>
-              <dl className="row">
-                <dt className="col-6">Founded</dt>
-                <dd className="col-6">February 3, 2016</dd>
-                <dt className="col-6">No. of Campsites in 2019</dt>
-                <dd className="col-6">563</dd>
-                <dt className="col-6">No. of Reviews in 2019</dt>
-                <dd className="col-6">4388</dd>
-                <dt className="col-6">Employees</dt>
-                <dd className="col-6">42</dd>
-              </dl>
-            </CardBody>
-          </Card>
+        <Fade in>
+        	
+        	  <Card>
+              <CardHeader className="bg-primary text-white"><h3>Facts At a Glance</h3></CardHeader>
+              <CardBody>
+                  <dl className="row">
+                     <dt className="col-6">Founded</dt>
+                    <dd className="col-6">February 3, 2016</dd>
+                    <dt className="col-6">No. of Campsites in 2019</dt>
+                    <dd className="col-6">563</dd>
+                    <dt className="col-6">No. of Reviews in 2019</dt>
+                    <dd className="col-6">4388</dd>
+                    <dt className="col-6">Employees</dt>
+                    <dd className="col-6">42</dd>
+                  </dl>
+              </CardBody>
+        	  </Card>
+        </Fade>
         </div>
         <div className="col">
           <Card className="bg-light mt-3">
